@@ -32,7 +32,7 @@
       "LongDescription": "Smart Switch Manager integrates smart home switches into your N.I.N.A. workflow. Control power relays as native equipment for manual use or automation in the Advanced Sequencer. Supported Providers: Shelly (Gen 1, Gen 2/3 Plus & Pro), Home Assistant (via REST API), Tasmota (via HTTP API), ESPHome (via REST API)."
     },
     "Installer": {
-      "URL": "https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/download/v0.9.0.0/NINA.Plugin.SmartSwitchManager.zip",
+      "URL": "https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/download/0.9.0.0/NINA.Plugin.SmartSwitchManager.zip",
       "Type": "ARCHIVE",
       "Checksum": "5DE0C9035DD1C4357B2A9F5AF2DF2038A26F0100F9B4DCA2E0C1875AAC7633FC1",
       "ChecksumType": "SHA256"
