@@ -37,7 +37,7 @@
     "Installer": {
       "URL": "https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/download/0.9.0.0/NINA.Plugin.SmartSwitchManager.zip",
       "Type": "ARCHIVE",
-      "Checksum": "sha256:3771e4ef3d64c9d5fd312ca727ae804b31c15cec0d4668188ca111f2f56c1c37",
+      "Checksum": "3771e4ef3d64c9d5fd312ca727ae804b31c15cec0d4668188ca111f2f56c1c37",
       "ChecksumType": "SHA256"
     }
   }
