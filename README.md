@@ -10,27 +10,20 @@ The Smart Switch Manager allows you to control power relays and IoT switches as 
 
 ### Supported Providers
 
-*   **Shelly**:
-    - Support for Gen 1 (HTTP API) and Gen 2/3 (Plus, Pro series via RPC API).
-    - **Status**: Tested with Shelly Pro 1 (Gen 2) and Shelly 2.5 (Gen 1).
-    - **Authentication**: Supports Basic and Digest authentication.
-    - **Hardware Timer**: Supports delayed switching via internal device timers (ideal for PC shutdown workflows).
-      - *Status*: Tested with Gen 2/3. Gen 1 implementation is present but currently field-untested for the timer feature.
-    - **Device Scanner**: Scans a specific IP address to detect device generation and available relay channels.
-*   **Home Assistant**:
-    - Controlled via Long-Lived Access Tokens (LLAT) and REST API.
-    - **Configuration**: Requires Host URL, Entity ID, and Token.
-*   **Tasmota**:
-    - Controlled via the HTTP Command API.
-    - **Status**: Backend implementation and hardware verification completed.
-    - **Hardware Timer**: Supports "One-Shot" timers using Tasmota Rules.
-      - Unlike standard Tasmota `PulseTime`, the plugin ensures the timer is automatically reset and disabled after execution, making it safe for sequential power-cycling.
-    - **Expert Setting**: `RuleId` (optional). Defaults to `3`. If your Tasmota device already uses `Rule3` for custom scripts, you can set this to `1` or `2` in the device configuration to avoid conflicts.
-    - **Scanner**: Implementation for discovering relays via HTTP.
-*   **ESPHome**:
-    - Integrated via the `web_server` component's REST API.
-    - **Configuration**: Manual input of IP Address and Entity ID (e.g., `switch-garden-light`).
-    - **Status**: Implemented.
+| Provider | Hardware Generations | API Type | Status | Hardware Timer |
+| :--- | :--- | :--- | :--- | :--- |
+| **Shelly** | Gen 2 / 3 (Plus, Pro) | RPC | Lab & Field Tested | Yes |
+| **Shelly** | Gen 1 | HTTP | Lab Tested | Yes |
+| **Tasmota** | All (ESP8266/ESP32) | HTTP | Lab Tested | Yes (Rule-based) |
+| **Home Assistant** | Entities / Switches | REST | Lab Tested | No |
+| **ESPHome** | `web_server` components | REST | Lab Tested | No |
+
+#### Provider Notes
+
+*   **Shelly**: Supports Basic/Digest auth. Hardware timers are ideal for PC shutdown or cooling workflows.
+*   **Tasmota**: Uses a verified "One-Shot" rule-based timer. 
+    - **Expert Setting**: `RuleId` (1, 2, or 3). Defaults to `3`.
+*   **Home Assistant**: Requires a Long-Lived Access Token (LLAT).
 
 ### Sequencer Behavior
 The **Toggle SmartSwitch** instruction in the Advanced Sequencer has a built-in safety check:
@@ -44,8 +37,6 @@ The **Toggle SmartSwitch** instruction in the Advanced Sequencer has a built-in 
 *   **Sequencer Instructions**:
     *   **Smart Switch Set**: Integration into the N.I.N.A. Advanced Sequencer.
 *   **Architecture**: Decoupled backend-provider structure with attribute-based capability discovery.
-
-## Installation
 
 ## Installation
 
