@@ -23,6 +23,7 @@ namespace NINA.Plugin.SmartSwitchManager.Backends {
         private string password;
         private string ruleCommand;
         private bool isInitialized;
+        private readonly System.Threading.SemaphoreSlim _httpLock = new System.Threading.SemaphoreSlim(1, 1);
 
         public TasmotaBackend() {
         }
@@ -85,6 +86,7 @@ namespace NINA.Plugin.SmartSwitchManager.Backends {
 
         public async Task<bool> GetStateAsync() {
             CheckInitialized();
+            await _httpLock.WaitAsync();
             try {
                 return await SmartSwitchHttpClient.ExecuteWithRetry(async () => {
                     using var cts = SmartSwitchHttpClient.GetCts();
@@ -124,6 +126,8 @@ namespace NINA.Plugin.SmartSwitchManager.Backends {
             } catch (Exception ex) {
                 Logger.Error($"TasmotaBackend: Failed to get state: {ex.Message}");
                 throw;
+            } finally {
+                _httpLock.Release();
             }
         }
 
@@ -189,13 +193,23 @@ namespace NINA.Plugin.SmartSwitchManager.Backends {
         private string GetPulseCmd() => $"PulseTime{this.channel}";
 
         private async Task ExecuteCommandAsync(string command) {
-            await SmartSwitchHttpClient.ExecuteWithRetry(async () => {
-                using var cts = SmartSwitchHttpClient.GetCts();
-                using var request = CreateRequest($"{baseUrl}/cm?cmnd={Uri.EscapeDataString(command)}");
-                var response = await HttpClient.SendAsync(request, cts.Token);
-                response.EnsureSuccessStatusCode();
-                return true;
-            });
+            await _httpLock.WaitAsync();
+            try {
+                await SmartSwitchHttpClient.ExecuteWithRetry(async () => {
+                    using var cts = SmartSwitchHttpClient.GetCts();
+                    using var request = CreateRequest($"{baseUrl}/cm?cmnd={Uri.EscapeDataString(command)}");
+                    var response = await HttpClient.SendAsync(request, cts.Token);
+                    response.EnsureSuccessStatusCode();
+                    return true;
+                });
+
+                // Tasmota answers HTTP 200 OK immediately for Backlog, but executes it slowly (~200ms per command).
+                // If we send a new HTTP request (like GetStateAsync) while Backlog is running, Tasmota ABORTS the backlog!
+                // We keep the lock held for 750ms to give Tasmota absolute silence to finish switching before the next poll.
+                await Task.Delay(750);
+            } finally {
+                _httpLock.Release();
+            }
         }
  
         public System.Collections.Generic.IEnumerable<ConfigFieldDescriptor> ConfigFields {
@@ -208,7 +222,7 @@ namespace NINA.Plugin.SmartSwitchManager.Backends {
             }
         }
         public void Dispose() {
-            // No specific per-instance resources to dispose yet, as it uses the shared static client.
+            _httpLock?.Dispose();
         }
     }
 }
