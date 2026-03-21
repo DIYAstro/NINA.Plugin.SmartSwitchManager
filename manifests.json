@@ -29,7 +29,10 @@
     },
     "Descriptions": {
       "ShortDescription": "Manage smart home switches (Shelly, Tasmota, HA, ESPHome) as native N.I.N.A. equipment.",
-      "LongDescription": "Smart Switch Manager integrates smart home switches into your N.I.N.A. workflow. Control power relays as native equipment for manual use or automation in the Advanced Sequencer. Supported Providers: Shelly (Gen 1, Gen 2/3 Plus & Pro), Home Assistant (via REST API), Tasmota (via HTTP API), ESPHome (via REST API)."
+      "LongDescription": "# Smart Switch Manager\r\n\r\nIntegrate your IoT power relays directly into your astrophotography workflow. Control equipment power manually or automate it via the Advanced Sequencer.\r\n\r\n### \uD83D\uDD0C Supported Systems\r\n* **Shelly:** Gen 1, Gen 2/3 (Plus & Pro) via HTTP/RPC APIs\r\n* **Home Assistant:** Full integration via REST API & Long-Lived Access Tokens (LLAT)\r\n* **Tasmota:** Control via the HTTP Command API\r\n* **ESPHome:** Seamless integration via the web_server component\r\n\r\n### \u2728 Key Features\r\n* **Native Equipment:** Appears directly in the **Equipment > Switch** tab.\r\n* **Sequencer Ready:** Dedicated instructions to toggle power during your sequences.\r\n* **Device Discovery:** Built-in scanners to find your Shelly and Tasmota devices on the network.\r\n\r\n---\r\n\r\n*For detailed setup and developer info, please visit the [GitHub Repository](https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager).*",
+      "FeaturedImageURL": "https://raw.githubusercontent.com/DIYAstro/NINA.Plugin.SmartSwitchManager/main/NINA.Plugin.SmartSwitchManager/plugin_logo.png",
+      "ScreenshotURL": "https://raw.githubusercontent.com/DIYAstro/NINA.Plugin.SmartSwitchManager/main/NINA.Plugin.SmartSwitchManager/plugin_logo.png",
+      "AltScreenshotURL": ""
     },
     "Installer": {
       "URL": "https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/download/0.9.0.0/NINA.Plugin.SmartSwitchManager.zip",
