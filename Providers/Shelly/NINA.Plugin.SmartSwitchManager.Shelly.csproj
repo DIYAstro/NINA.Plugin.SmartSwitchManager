@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>NINA.Plugin.SmartSwitchManager.Shelly</AssemblyName>
+    <RootNamespace>NINA.Plugin.SmartSwitchManager.Shelly</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NINA.Plugin" Version="$(NINAVersion)" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NINA.Plugin.SmartSwitchManager.Core\NINA.Plugin.SmartSwitchManager.Core.csproj" />
+  </ItemGroup>
+</Project>

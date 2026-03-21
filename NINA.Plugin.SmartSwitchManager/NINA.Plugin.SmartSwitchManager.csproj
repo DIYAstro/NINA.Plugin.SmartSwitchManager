@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>NINA.Plugin.SmartSwitchManager</RootNamespace>
+    <AssemblyName>NINA.Plugin.SmartSwitchManager</AssemblyName>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NINA.Plugin" Version="$(NINAVersion)" />
+    <PackageReference Include="NINA.WPF.Base" Version="$(NINAVersion)" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="8.0.0" />
+    <ProjectReference Include="..\NINA.Plugin.SmartSwitchManager.Core\NINA.Plugin.SmartSwitchManager.Core.csproj" />
+    
+    <!-- References to providers to ensure they are built, but we don't use them in code -->
+    <ProjectReference Include="..\Providers\Shelly\NINA.Plugin.SmartSwitchManager.Shelly.csproj" Private="false" />
+    <ProjectReference Include="..\Providers\Tasmota\NINA.Plugin.SmartSwitchManager.Tasmota.csproj" Private="false" />
+    <ProjectReference Include="..\Providers\HomeAssistant\NINA.Plugin.SmartSwitchManager.HomeAssistant.csproj" Private="false" />
+    <ProjectReference Include="..\Providers\ESPHome\NINA.Plugin.SmartSwitchManager.ESPHome.csproj" Private="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="plugin_logo.png" />
+  </ItemGroup>
+
+  <!-- Post-build: copy plugin and backends to NINA plugins folder for local testing -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(Configuration)' == 'Debug'">
+    <PropertyGroup>
+      <PluginDist>%25localappdata%25\NINA\Plugins\3.0.0\SmartSwitchManager\</PluginDist>
+      <BackendsDist>$(PluginDist)Backends\</BackendsDist>
+    </PropertyGroup>
+    <Exec Command="xcopy /Y /D &quot;$(TargetDir)*.dll&quot; &quot;$(PluginDist)&quot;" ContinueOnError="true" />
+    <Exec Command="if not exist &quot;$(BackendsDist)&quot; mkdir &quot;$(BackendsDist)&quot;" ContinueOnError="true" />
+    <Exec Command="if not exist &quot;$(BackendsDist)Shelly&quot; mkdir &quot;$(BackendsDist)Shelly&quot;" ContinueOnError="true" />
+    <Exec Command="xcopy /Y /D &quot;$(SolutionDir)Providers\Shelly\bin\x64\$(Configuration)\net8.0-windows7.0\NINA.Plugin.SmartSwitchManager.Shelly.dll&quot; &quot;$(BackendsDist)Shelly\&quot;" ContinueOnError="true" />
+    <Exec Command="if not exist &quot;$(BackendsDist)Tasmota&quot; mkdir &quot;$(BackendsDist)Tasmota&quot;" ContinueOnError="true" />
+    <Exec Command="xcopy /Y /D &quot;$(SolutionDir)Providers\Tasmota\bin\x64\$(Configuration)\net8.0-windows7.0\NINA.Plugin.SmartSwitchManager.Tasmota.dll&quot; &quot;$(BackendsDist)Tasmota\&quot;" ContinueOnError="true" />
+    <Exec Command="if not exist &quot;$(BackendsDist)HomeAssistant&quot; mkdir &quot;$(BackendsDist)HomeAssistant&quot;" ContinueOnError="true" />
+    <Exec Command="xcopy /Y /D &quot;$(SolutionDir)Providers\HomeAssistant\bin\x64\$(Configuration)\net8.0-windows7.0\NINA.Plugin.SmartSwitchManager.HomeAssistant.dll&quot; &quot;$(BackendsDist)HomeAssistant\&quot;" ContinueOnError="true" />
+    <Exec Command="if not exist &quot;$(BackendsDist)ESPHome&quot; mkdir &quot;$(BackendsDist)ESPHome&quot;" ContinueOnError="true" />
+    <Exec Command="xcopy /Y /D &quot;$(SolutionDir)Providers\ESPHome\bin\x64\$(Configuration)\net8.0-windows7.0\NINA.Plugin.SmartSwitchManager.ESPHome.dll&quot; &quot;$(BackendsDist)ESPHome\&quot;" ContinueOnError="true" />
+  </Target>
+</Project>

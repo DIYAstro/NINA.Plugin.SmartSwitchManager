@@ -1,0 +1,60 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINA.Plugin.SmartSwitchManager", "NINA.Plugin.SmartSwitchManager\NINA.Plugin.SmartSwitchManager.csproj", "{5D7FD772-73C9-4BC8-87C4-F56133AC381D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINA.Plugin.SmartSwitchManager.Core", "NINA.Plugin.SmartSwitchManager.Core\NINA.Plugin.SmartSwitchManager.Core.csproj", "{0B98C1B0-9165-4B1F-A5EE-3DBC6E7FD366}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Providers", "Providers", "{61CEDC2D-A5D2-4586-913A-BB5110C691FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINA.Plugin.SmartSwitchManager.Shelly", "Providers\Shelly\NINA.Plugin.SmartSwitchManager.Shelly.csproj", "{B2DB7FA3-1F67-46E4-9719-47CBC59E60AA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINA.Plugin.SmartSwitchManager.Tasmota", "Providers\Tasmota\NINA.Plugin.SmartSwitchManager.Tasmota.csproj", "{A3955CD1-E832-4A82-9175-78027B69B67B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINA.Plugin.SmartSwitchManager.HomeAssistant", "Providers\HomeAssistant\NINA.Plugin.SmartSwitchManager.HomeAssistant.csproj", "{78EB1334-9694-42A9-A6AA-4E10AFD50196}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NINA.Plugin.SmartSwitchManager.ESPHome", "Providers\ESPHome\NINA.Plugin.SmartSwitchManager.ESPHome.csproj", "{38AABFA9-9CBB-4EC0-8E5C-B7527BBA26B7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D7FD772-73C9-4BC8-87C4-F56133AC381D}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{5D7FD772-73C9-4BC8-87C4-F56133AC381D}.Debug|Any CPU.Build.0 = Debug|x64
+		{5D7FD772-73C9-4BC8-87C4-F56133AC381D}.Release|Any CPU.ActiveCfg = Release|x64
+		{5D7FD772-73C9-4BC8-87C4-F56133AC381D}.Release|Any CPU.Build.0 = Release|x64
+		{0B98C1B0-9165-4B1F-A5EE-3DBC6E7FD366}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{0B98C1B0-9165-4B1F-A5EE-3DBC6E7FD366}.Debug|Any CPU.Build.0 = Debug|x64
+		{0B98C1B0-9165-4B1F-A5EE-3DBC6E7FD366}.Release|Any CPU.ActiveCfg = Release|x64
+		{0B98C1B0-9165-4B1F-A5EE-3DBC6E7FD366}.Release|Any CPU.Build.0 = Release|x64
+		{B2DB7FA3-1F67-46E4-9719-47CBC59E60AA}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B2DB7FA3-1F67-46E4-9719-47CBC59E60AA}.Debug|Any CPU.Build.0 = Debug|x64
+		{B2DB7FA3-1F67-46E4-9719-47CBC59E60AA}.Release|Any CPU.ActiveCfg = Release|x64
+		{B2DB7FA3-1F67-46E4-9719-47CBC59E60AA}.Release|Any CPU.Build.0 = Release|x64
+		{A3955CD1-E832-4A82-9175-78027B69B67B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{A3955CD1-E832-4A82-9175-78027B69B67B}.Debug|Any CPU.Build.0 = Debug|x64
+		{A3955CD1-E832-4A82-9175-78027B69B67B}.Release|Any CPU.ActiveCfg = Release|x64
+		{A3955CD1-E832-4A82-9175-78027B69B67B}.Release|Any CPU.Build.0 = Release|x64
+		{78EB1334-9694-42A9-A6AA-4E10AFD50196}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{78EB1334-9694-42A9-A6AA-4E10AFD50196}.Debug|Any CPU.Build.0 = Debug|x64
+		{78EB1334-9694-42A9-A6AA-4E10AFD50196}.Release|Any CPU.ActiveCfg = Release|x64
+		{78EB1334-9694-42A9-A6AA-4E10AFD50196}.Release|Any CPU.Build.0 = Release|x64
+		{38AABFA9-9CBB-4EC0-8E5C-B7527BBA26B7}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{38AABFA9-9CBB-4EC0-8E5C-B7527BBA26B7}.Debug|Any CPU.Build.0 = Debug|x64
+		{38AABFA9-9CBB-4EC0-8E5C-B7527BBA26B7}.Release|Any CPU.ActiveCfg = Release|x64
+		{38AABFA9-9CBB-4EC0-8E5C-B7527BBA26B7}.Release|Any CPU.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B2DB7FA3-1F67-46E4-9719-47CBC59E60AA} = {61CEDC2D-A5D2-4586-913A-BB5110C691FB}
+		{A3955CD1-E832-4A82-9175-78027B69B67B} = {61CEDC2D-A5D2-4586-913A-BB5110C691FB}
+		{78EB1334-9694-42A9-A6AA-4E10AFD50196} = {61CEDC2D-A5D2-4586-913A-BB5110C691FB}
+		{38AABFA9-9CBB-4EC0-8E5C-B7527BBA26B7} = {61CEDC2D-A5D2-4586-913A-BB5110C691FB}
+	EndGlobalSection
+EndGlobal

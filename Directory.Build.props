@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
+    <Platforms>x64</Platforms>
+    <Authors>Dirk</Authors>
+    <Company>NINA.Plugin.SmartSwitchManager</Company>
+    <Copyright>Copyright © 2024 Dirk</Copyright>
+    <NINAVersion>3.2.0.9001</NINAVersion>
+    <NoWarn>$(NoWarn);CA1416</NoWarn>
+  </PropertyGroup>
+</Project>
