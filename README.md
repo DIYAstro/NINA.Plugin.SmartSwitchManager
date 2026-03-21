@@ -22,12 +22,20 @@ The Smart Switch Manager allows you to control power relays and IoT switches as 
     - **Configuration**: Requires Host URL, Entity ID, and Token.
 *   **Tasmota**:
     - Controlled via the HTTP Command API.
-    - **Status**: Backend implementation completed. Hardware verification pending.
+    - **Status**: Backend implementation and hardware verification completed.
+    - **Hardware Timer**: Supports "One-Shot" timers using Tasmota Rules.
+      - Unlike standard Tasmota `PulseTime`, the plugin ensures the timer is automatically reset and disabled after execution, making it safe for sequential power-cycling.
+    - **Expert Setting**: `RuleId` (optional). Defaults to `3`. If your Tasmota device already uses `Rule3` for custom scripts, you can set this to `1` or `2` in the device configuration to avoid conflicts.
     - **Scanner**: Implementation for discovering relays via HTTP.
 *   **ESPHome**:
     - Integrated via the `web_server` component's REST API.
     - **Configuration**: Manual input of IP Address and Entity ID (e.g., `switch-garden-light`).
     - **Status**: Implemented.
+
+### Sequencer Behavior
+The **Toggle SmartSwitch** instruction in the Advanced Sequencer has a built-in safety check:
+*   **Normal Toggle (Delay = 0s)**: NINA will wait (up to 10s) until the device physically confirms the state change before moving to the next instruction.
+*   **Hardware Timer (Delay > 0s)**: NINA will continue immediately once the device acknowledges the command, while the timer runs autonomously on the hardware.
 
 ### Features
 

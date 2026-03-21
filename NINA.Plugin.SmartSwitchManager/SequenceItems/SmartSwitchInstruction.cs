@@ -107,6 +107,27 @@ namespace NINA.Plugin.SmartSwitchManager.SequenceItems {
                 Logger.Info($"SmartSwitchInstruction: Turning {(TurnOn ? "ON" : "OFF")} switch '{config.Name}' at {config.GetSetting("Host")} (Delay={DelaySeconds}s)");
                 backend = BackendFactory.Create(config);
                 await backend.SetStateAsync(TurnOn, DelaySeconds);
+
+                // For normal toggles (no hardware timer), wait for physical state confirmation.
+                // This ensures NINA doesn't move to the next instruction before the relay has actually switched.
+                if (DelaySeconds <= 0) {
+                    bool confirmed = false;
+                    Logger.Debug($"SmartSwitchInstruction: Validating target state {(TurnOn ? "ON" : "OFF")} for '{config.Name}'...");
+                    
+                    for (int i = 0; i < 5; i++) {
+                        await Task.Delay(2000, token);
+                        bool actualState = await backend.GetStateAsync();
+                        if (actualState == TurnOn) {
+                            confirmed = true;
+                            break;
+                        }
+                    }
+
+                    if (!confirmed) {
+                        throw new Exception($"Timeout or error waiting for switch '{config.Name}' state confirmation.");
+                    }
+                }
+
                 Logger.Info($"SmartSwitchInstruction: Successfully toggled switch '{config.Name}'.");
             } catch (Exception ex) {
                 Logger.Error($"SmartSwitchInstruction: Failed to toggle switch '{config.Name}': {ex.Message}");
