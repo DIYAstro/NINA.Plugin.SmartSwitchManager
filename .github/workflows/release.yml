@@ -23,7 +23,8 @@ jobs:
     - name: Build Plugin
       shell: pwsh
       run: |
-        .\build.ps1 -Configuration Release
+        $VersionString = "${{ github.ref_name }}".TrimStart('v')
+        .\build.ps1 -Configuration Release -Version $VersionString
 
     - name: Patch Manifest
       shell: pwsh

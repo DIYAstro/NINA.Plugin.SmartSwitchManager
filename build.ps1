@@ -1,7 +1,8 @@
 # N.I.N.A. Smart Switch Manager - Build Script
 
 param (
-    [string]$Configuration = "Release"
+    [string]$Configuration = "Release",
+    [string]$Version = "1.0.0.0"
 )
 
 $ProjectName = "NINA.Plugin.SmartSwitchManager"
@@ -26,8 +27,8 @@ New-Item -ItemType Directory -Path $DistDir | Out-Null
 New-Item -ItemType Directory -Path $TempDir | Out-Null
 
 # Run dotnet build on the solution
-Write-Host "Running dotnet build ($Configuration) on the solution..." -ForegroundColor Yellow
-dotnet build "NINA.Plugin.SmartSwitchManager.sln" -c $Configuration
+Write-Host "Running dotnet build ($Configuration) for v$Version on the solution..." -ForegroundColor Yellow
+dotnet build "NINA.Plugin.SmartSwitchManager.sln" -c $Configuration -p:Version=$Version
 
 if ($LASTEXITCODE -eq 0) {
     Write-Host "Isolating plugin files..." -ForegroundColor Gray
