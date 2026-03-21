@@ -45,7 +45,7 @@ As the plugin is currently in beta and not yet in the official N.I.N.A. store, y
 1.  Open N.I.N.A.
 2.  Go to **Options → General → Plugin Repository**.
 3.  Click the **+** button under **Extra Repositories**.
-4.  Paste this URL: `https://raw.githubusercontent.com/DIYAstro/NINA.Plugin.SmartSwitchManager/main/manifests.json?`
+4.  Paste this URL: `https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/latest/download/manifests.json`
 5.  Go to **Plugins → Available** and search for **Smart Switch Manager**.
 
 

@@ -4,7 +4,7 @@
     "Identifier": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
     "Version": {
       "Major": "0",
-      "Minor": "9",
+      "Minor": "0",
       "Patch": "0",
       "Build": "0"
     },
@@ -35,9 +35,9 @@
       "AltScreenshotURL": ""
     },
     "Installer": {
-      "URL": "https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/download/0.9.0.0/NINA.Plugin.SmartSwitchManager.zip",
+      "URL": "https://github.com/DIYAstro/NINA.Plugin.SmartSwitchManager/releases/download/0.0.0.0/PLACEHOLDER.zip",
       "Type": "ARCHIVE",
-      "Checksum": "3771e4ef3d64c9d5fd312ca727ae804b31c15cec0d4668188ca111f2f56c1c37",
+      "Checksum": "0000000000000000000000000000000000000000000000000000000000000000",
       "ChecksumType": "SHA256"
     }
   }

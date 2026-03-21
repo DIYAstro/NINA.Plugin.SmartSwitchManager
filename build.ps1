@@ -1,12 +1,15 @@
 # N.I.N.A. Smart Switch Manager - Build Script
 
+param (
+    [string]$Configuration = "Release"
+)
+
 $ProjectName = "NINA.Plugin.SmartSwitchManager"
 $ProjectPath = Join-Path $ProjectName "$ProjectName.csproj"
 $BuildDir = Join-Path $PSScriptRoot "build"
 $DistDir = Join-Path $BuildDir $ProjectName
 $ZipFile = Join-Path $BuildDir "$ProjectName.zip"
 $TempDir = Join-Path $BuildDir "temp"
-$Configuration = "Debug"
 
 Write-Host "--- Starting Build for $ProjectPath ---" -ForegroundColor Cyan
 
@@ -44,6 +47,10 @@ if ($LASTEXITCODE -eq 0) {
     foreach ($provider in $Providers) {
         $providerProject = "NINA.Plugin.SmartSwitchManager.$provider"
         $providerOutputDir = Join-Path $PSScriptRoot "Providers\$provider\bin\x64\$Configuration\net8.0-windows7.0"
+        
+        if (-not (Test-Path $providerOutputDir)) {
+            $providerOutputDir = Join-Path $PSScriptRoot "Providers\$provider\bin\$Configuration\net8.0-windows7.0"
+        }
         
         if (Test-Path $providerOutputDir) {
             $dest = New-Item -ItemType Directory -Path "$BackendsBaseDir\$provider" -Force

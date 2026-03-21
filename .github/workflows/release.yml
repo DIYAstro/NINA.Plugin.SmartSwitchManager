@@ -1,0 +1,72 @@
+name: Build and Release Plugin
+
+on:
+  push:
+    tags:
+      - 'v*' # Trigger on tags like v1.0.0, v0.9.1 etc.
+
+jobs:
+  build_release:
+    runs-on: windows-latest
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '8.0.x'
+
+    - name: Build Plugin
+      shell: pwsh
+      run: |
+        .\build.ps1 -Configuration Release
+
+    - name: Patch Manifest
+      shell: pwsh
+      run: |
+        # Extract version without the 'v' (e.g., v1.0.0.0 -> 1.0.0.0)
+        $VersionString = "${{ github.ref_name }}".TrimStart('v')
+        $Parts = $VersionString.Split('.')
+        
+        $Major = if ($Parts.Length -gt 0) { $Parts[0] } else { "0" }
+        $Minor = if ($Parts.Length -gt 1) { $Parts[1] } else { "0" }
+        $Patch = if ($Parts.Length -gt 2) { $Parts[2] } else { "0" }
+        $BuildNum = if ($Parts.Length -gt 3) { $Parts[3] } else { "0" }
+        
+        # Calculate SHA256 of the generated zip
+        $ZipPath = "build/NINA.Plugin.SmartSwitchManager.zip"
+        $Hash = (Get-FileHash -Path $ZipPath -Algorithm SHA256).Hash.ToLower()
+        
+        Write-Host "Version parsed as: $Major.$Minor.$Patch.$BuildNum"
+        Write-Host "Calculated Hash: $Hash"
+        
+        # Load and update the JSON contents
+        $JsonPath = "manifests.json"
+        $JsonData = Get-Content -Raw -Path $JsonPath | ConvertFrom-Json
+        
+        # Update JSON object properties
+        $JsonData[0].Version.Major = $Major
+        $JsonData[0].Version.Minor = $Minor
+        $JsonData[0].Version.Patch = $Patch
+        $JsonData[0].Version.Build = $BuildNum
+        $JsonData[0].Installer.Checksum = $Hash
+        
+        # The URL dynamically points to the specific tag release
+        $JsonData[0].Installer.URL = "https://github.com/${{ github.repository }}/releases/download/${{ github.ref_name }}/NINA.Plugin.SmartSwitchManager.zip"
+        
+        # Save back the JSON temporarily for the upload step
+        $JsonData | ConvertTo-Json -Depth 10 | Set-Content -Path $JsonPath
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          build/NINA.Plugin.SmartSwitchManager.zip
+          manifests.json
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
