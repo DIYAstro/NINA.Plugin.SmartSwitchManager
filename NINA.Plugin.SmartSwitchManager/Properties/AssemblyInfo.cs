@@ -4,9 +4,9 @@ using System.Runtime.InteropServices;
 // [MANDATORY] Unique identifier of this plugin — do NOT change after first release!
 [assembly: Guid("a1b2c3d4-e5f6-7890-abcd-ef1234567890")]
 
-// [MANDATORY] Assembly versioning — increment for each new release
-[assembly: AssemblyVersion("0.9.0.0")]
-[assembly: AssemblyFileVersion("0.9.0.0")]
+// [MANDATORY] Assembly versioning (Dynamically replaced by GitHub Action during release)
+[assembly: AssemblyVersion("0.0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0.0")]
 
 // [MANDATORY] The name of the plugin (also used as folder name and DataTemplate key)
 [assembly: AssemblyTitle("Smart Switch Manager")]
