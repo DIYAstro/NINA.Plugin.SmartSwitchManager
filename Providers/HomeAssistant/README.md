@@ -21,15 +21,27 @@ The provider uses the Home Assistant REST API. When switching, it calls the conf
 
 ## Timer Support (Home Assistant Script/Timer Provider)
 
-Standard Home Assistant `switch` entities only support simple on/off commands and ignore N.I.N.A.'s "Delay" parameter.
-To use timers, you must select the **"Home Assistant (Script/Timer)"** provider when adding the switch in N.I.N.A. This specialized provider enables the "Delay" parameter in the Sequencer and seamlessly passes the actual switch ID, the requested delay, and the desired N.I.N.A. target state (`"on"` or `"off"`) to your Home Assistant Script.
+Standard Home Assistant `switch` entities do not natively support custom variables like N.I.N.A.'s "Delay" parameter. 
+The **"Home Assistant (Script/Timer)"** provider bridges this gap by invoking a Home Assistant script while passing the target state and delay as variables.
+
+### Key Logic: Polling vs. Execution
+
+Since Home Assistant scripts are transient (they return to an `off` state immediately after starting), they cannot be used to reliably track the power state of your equipment. This provider implements a dual-entity approach:
+
+1.  **Actual State Entity ID (Polling)**: This is a real, persistent Home Assistant entity (e.g., a `switch`, `light`, or `binary_sensor`) that N.I.N.A. uses to show the ON/OFF state in the UI.
+2.  **Script Entity ID (Action)**: This is the Home Assistant script that N.I.N.A. invokes when you toggle the switch.
+
+### Universal vs. Specialized Scripts
+
+The plugin passes three variables to the script: `real_entity_id`, `target_state` (`on`/`off`), and `delay_seconds`.
+
+*   **Universal Use-Case**: You can use a single script for many N.I.N.A. switches by using the `real_entity_id` variable in your YAML code to dynamically target different devices.
+*   **Specialized Use-Case**: For complex sequences (e.g., closing a roof, then shutting down a PC, then cutting power), you can create a custom script. In this case, you can ignore the `real_entity_id` variable in your YAML. N.I.N.A. will still use the **Actual State Entity ID** to confirm once the entire sequence has finished (e.g., by polling the final power relay).
 
 ### Creating the Universal Script in Home Assistant
 
-You only need **one single universal script** in Home Assistant to handle all your N.I.N.A. switches! The script will dynamically receive the delay and the target switch ID from N.I.N.A.
-
 1. Open Home Assistant and go to **Settings** -> **Automations & Tags** -> **Scripts**.
-2. Click **Add Script** and select **Create new script**.
+2. Click **Add Script** -> **Create new script**.
 3. In the top right corner, click the three-dot menu icon (⋮) and choose **Edit in YAML**.
 4. Paste the following blueprint code:
 
@@ -47,15 +59,10 @@ sequence:
       entity_id: "{{ real_entity_id }}"
 ```
 
-5. Click **Save** (you do NOT need to replace any placeholders in this code, it is fully dynamic).
-
 ### Configuring N.I.N.A.
 
-Now, back in N.I.N.A.:
-1. Create a new Smart Switch in the Equipment tab.
+1. Add a new Smart Switch in N.I.N.A.
 2. Set the Provider to **Home Assistant (Script/Timer)**.
-3. Set the **Actual State Entity ID** to the **real** switch you want to control (e.g., `switch.observatory_power`). N.I.N.A. will use this to poll the correct ON/OFF state.
-4. Set the **Script Entity ID** to the name of your universal script (e.g., `script.n_i_n_a_universal_switch_timer`).
-5. Set both Service fields in the Expert settings to `turn_on` (Home Assistant always treats calling a script as `turn_on`).
-
-By using the *Toggle Smart Switch* instruction, N.I.N.A. will send the target state and the delay to the script, while continuing to successfully poll the actual switch's power state!
+3. **Actual State Entity ID**: Enter the real switch ID (e.g., `switch.observatory_power`).
+4. **Script Entity ID**: Enter your script ID (e.g., `script.n_i_n_a_universal_switch_timer`).
+5. Set `Turn On Service` and `Turn Off Service` to `turn_on` in the Expert settings (N.I.N.A. must "start" the script in both directions).
