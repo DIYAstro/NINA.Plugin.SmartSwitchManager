@@ -2,15 +2,8 @@ name: Sync to Wiki
 
 on:
   push:
-    branches:
-      - main
     tags:
       - 'v*'
-    paths:
-      - 'README.md'
-      - 'ADD_NEW_PROVIDER.md'
-      - 'Providers/**/README.md'
-      - '.github/workflows/wiki-sync.yml'
   workflow_dispatch:
 
 jobs:
