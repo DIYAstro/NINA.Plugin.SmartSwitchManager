@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
     paths:
       - 'README.md'
       - 'ADD_NEW_PROVIDER.md'
@@ -46,8 +48,30 @@ jobs:
           fi
 
       - name: Deploy to Wiki
-        uses: Andrew-Chen-Wang/github-wiki-action@v4
-        with:
-          wiki_folder: temp_wiki
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # The Wiki is a separate Git repository at [repo].wiki.git
+          WIKI_URL="https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.wiki.git"
+          
+          # Clone the wiki repository
+          git clone "$WIKI_URL" wiki_temp_repo
+          
+          # Clean out the old files in the wiki repo (except .git)
+          cd wiki_temp_repo
+          find . -maxdepth 1 -not -name '.git' -not -name '.' -exec rm -rf {} +
+          
+          # Copy new files from our prepared folder
+          cp -rv ../temp_wiki/* .
+          
+          # Configure git
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Commit and push if there are changes
+          git add .
+          if git diff-index --quiet HEAD; then
+            echo "No changes to wiki. Skipping push."
+          else
+            git commit -m "Auto-update wiki from documentation (SHA: ${{ github.sha }})"
+            git push origin master || git push origin main
+          fi
+
