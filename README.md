@@ -33,7 +33,7 @@ The **Toggle SmartSwitch** instruction in the Advanced Sequencer has a built-in 
 ### Features
 
 *   **Equipment Integration**: Appears in the **Equipment → Switch** tab. 
-*   **Discovery**: Scanners for Shelly and Tasmota to identify device details and channels at a given IP address.
+*   **Entity Discovery**: Scanners for Shelly and Tasmota to identify available switch entities (channels) at a specified IP address.
 *   **Sequencer Instructions**:
     *   **Smart Switch Set**: Integration into the N.I.N.A. Advanced Sequencer.
 *   **Architecture**: Decoupled backend-provider structure with attribute-based capability discovery.
